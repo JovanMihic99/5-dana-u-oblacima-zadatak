@@ -56,25 +56,4 @@ async function createTables() {
   }
 }
 
-// async function executeQuery(query) {
-//   const db = new sqlite3.Database(":memory:", (err) => {
-//     if (err) return console.error("Error connecting to database", err.message);
-//     console.log("Connected to in-memory sqlite3 database");
-//   });
-
-//   try {
-//     // Run insert query
-//     await runQuery(db, query);
-//     console.log("Query executed");
-//   } catch {
-//     console.error("Error executing query:", err.message);
-//   } finally {
-//     // Close the database connection
-//     db.close((err) => {
-//       if (err) return console.error("Error closing the database:", err.message);
-//       console.log("Database connection closed");
-//     });
-//   }
-// }
-
 export { createTables, runQuery, db };

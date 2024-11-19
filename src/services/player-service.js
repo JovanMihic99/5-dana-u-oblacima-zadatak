@@ -80,3 +80,25 @@ export async function updatePlayer(id, column, value) {
     throw error;
   }
 }
+
+export async function isNicknameTaken(nickname) {
+  try {
+    const selectQuery = `SELECT * FROM players WHERE nickname = ?`;
+    const row = await new Promise((resolve, reject) => {
+      db.get(selectQuery, [nickname], (err, row) => {
+        if (err) {
+          return reject(new Error(err.message));
+        }
+
+        resolve(row);
+      });
+    });
+    if (row) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error(error.stack);
+    throw error;
+  }
+}

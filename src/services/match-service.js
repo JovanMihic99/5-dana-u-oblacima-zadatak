@@ -20,9 +20,8 @@ export async function saveMatch(team1Id, team2Id, winningTeamId, duration) {
 }
 
 export async function updateTeamsAfterMatch(winnerId, looserId, tie, hours) {
-  // note: this whole function's performance should be improved
+  // note: this whole function's performance should be improved, also must add logic to skip updating scores in case of tie
   try {
-    if (tie) return; // THIS MUST BE FIXED
     // winners
     const winningPlayers = await findPlayersByTeamId(winnerId);
     const totalWinnerELO = winningPlayers.reduce(
@@ -32,12 +31,11 @@ export async function updateTeamsAfterMatch(winnerId, looserId, tie, hours) {
     const avgELOWinners = totalWinnerELO / winningPlayers.length;
     // loosers
     const loosingPlayers = await findPlayersByTeamId(looserId);
-
-    const totalLooserELO = winningPlayers.reduce(
+    const totalLooserELO = loosingPlayers.reduce(
       (sum, player) => sum + player.elo,
       0
     );
-    const avgELOLosers = totalLooserELO / winningPlayers.length;
+    const avgELOLosers = totalLooserELO / loosingPlayers.length;
 
     for (const player of winningPlayers) {
       const k = calculateRatingAdjustment(player);
@@ -54,7 +52,7 @@ export async function updateTeamsAfterMatch(winnerId, looserId, tie, hours) {
 
     for (const player of loosingPlayers) {
       const k = calculateRatingAdjustment(player);
-      console.log({ k });
+
       await updatePlayer(player.id, "losses", player.losses + 1);
       await updatePlayer(player.id, "hoursPlayed", player.hoursPlayed + hours);
       await updatePlayer(player.id, "ratingAdjustment", k);
@@ -64,8 +62,12 @@ export async function updateTeamsAfterMatch(winnerId, looserId, tie, hours) {
         calculateELO("loss", player.elo, avgELOWinners, k)
       );
     }
+    let updatedWInners = await findPlayersByTeamId(winnerId);
 
-    console.log("updated winners:", await findPlayersByTeamId(winnerId));
+    console.log(
+      "updated winners:",
+      updatedWInners.map((p) => p.elo)
+    );
   } catch (err) {
     console.error(err);
   }
@@ -91,21 +93,13 @@ export function calculateRatingAdjustment(player) {
   return k;
 }
 
-// export async function updateWinsAndLosses(winningPlayers, loosingPlayers) {
-//   try {
-//     for (const player of winningPlayers) {
-//       await updatePlayer(player.id, "wins", player.wins + 1);
-//     }
-//     for (const player of loosingPlayers) {
-//       await updatePlayer(player.id, "losses", player.losses + 1);
-//     }
-//   } catch (err) {
-//     console.error(err);
-//   }
-// }
-
-export function calculateELO(result, r1, r2, k) {
-  let s, e, rNew;
+export function calculateELO(
+  result,
+  currentELO,
+  averageOponentTeamELO,
+  ratingAdjustment
+) {
+  let s, expectedELO, newELO;
   s = 0.5; // in case of tie
   if (result === "win") {
     s = 1; // in case of win
@@ -113,8 +107,10 @@ export function calculateELO(result, r1, r2, k) {
     s = 0; //in case of loss
   }
 
-  e = 1 / (1 + Math.pow(10, (r2 - r1) / 400));
-  rNew = r1 + k * (s - e);
-  console.log({ result, r1, r2, k, s, e, rNew });
-  return rNew;
+  expectedELO =
+    1 / (1 + Math.pow(10, (averageOponentTeamELO - currentELO) / 400));
+  console.log({ currentELO, expectedELO, ratingAdjustment, s, result });
+  newELO = currentELO + ratingAdjustment * (s - expectedELO);
+  //   console.log({ result, r1, r2, k, s, e, rNew });
+  return newELO;
 }

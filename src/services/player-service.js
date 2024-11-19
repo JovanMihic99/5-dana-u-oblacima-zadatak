@@ -59,10 +59,24 @@ export async function updatePlayersTeam(players, teamId) {
           resolve();
         });
       });
-      console.log(`Player ${playerId}'s team updated to ${teamId}`);
     } catch (error) {
       console.error(error.message);
       throw error;
     }
+  }
+}
+
+export async function updatePlayer(id, column, value) {
+  try {
+    const updateQuery = `UPDATE players SET ${column} = ? WHERE id = ?`;
+    await new Promise((resolve, reject) => {
+      db.run(updateQuery, [value, id], (err) => {
+        if (err) return reject(new Error(err.message));
+        resolve();
+      });
+    });
+  } catch (error) {
+    console.error(error.message);
+    throw error;
   }
 }

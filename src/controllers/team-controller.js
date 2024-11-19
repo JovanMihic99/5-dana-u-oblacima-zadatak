@@ -1,12 +1,12 @@
 import asyncHandler from "express-async-handler";
 import { v4 as uuidv4 } from "uuid";
-
 import {
   findPlayersByTeamId,
   populatePlayers,
   updatePlayersTeam,
 } from "../services/player-service.js";
 import { findTeamById, saveTeam } from "../services/team-service.js";
+
 const createTeam = asyncHandler(async (req, res) => {
   const { players, teamName } = req.body;
   const id = uuidv4();
@@ -32,10 +32,8 @@ const getTeamById = asyncHandler(async (req, res) => {
     ...team,
     players,
   };
+
   res.status(200).json(result);
 });
-const getTeams = asyncHandler(async (req, res) => {
-  const { players, teamName } = req.body;
-});
 
-export default { createTeam, getTeamById, getTeams };
+export default { createTeam, getTeamById };

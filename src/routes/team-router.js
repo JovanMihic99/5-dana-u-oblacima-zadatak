@@ -4,6 +4,5 @@ const teamRouter = express.Router();
 
 teamRouter.post("/", teamController.createTeam);
 teamRouter.get("/:id", teamController.getTeamById);
-teamRouter.get("/", teamController.getTeams);
 
 export default teamRouter;

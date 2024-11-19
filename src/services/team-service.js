@@ -34,3 +34,25 @@ export async function saveTeam(id, teamName) {
     throw error;
   }
 }
+
+export async function isTeamNameTaken(teamName) {
+  try {
+    const selectQuery = `SELECT * FROM teams WHERE teamName = ?`;
+    const row = await new Promise((resolve, reject) => {
+      db.get(selectQuery, [teamName], (err, row) => {
+        if (err) {
+          return reject(new Error(err.message));
+        }
+
+        resolve(row);
+      });
+    });
+    if (row) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error(error.stack);
+    throw error;
+  }
+}

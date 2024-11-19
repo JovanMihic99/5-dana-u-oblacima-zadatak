@@ -36,4 +36,26 @@ const getTeamById = asyncHandler(async (req, res) => {
   res.status(200).json(result);
 });
 
-export default { createTeam, getTeamById };
+async function isNicknameTaken(teamName) {
+  try {
+    const selectQuery = `SELECT * FROM teams WHERE teamName = ?`;
+    const row = await new Promise((resolve, reject) => {
+      db.get(selectQuery, [teamName], (err, row) => {
+        if (err) {
+          return reject(new Error(err.message));
+        }
+
+        resolve(row);
+      });
+    });
+    if (row) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error(error.stack);
+    throw error;
+  }
+}
+
+export default { createTeam, getTeamById, isNicknameTaken };

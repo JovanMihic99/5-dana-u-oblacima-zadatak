@@ -3,7 +3,7 @@ import playerRouter from "./routes/player-router.js";
 const app = express();
 
 // Middleware
-
+app.use(express.json());
 // Routes
 app.use("/players", playerRouter);
 

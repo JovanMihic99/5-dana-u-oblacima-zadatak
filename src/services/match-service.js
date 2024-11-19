@@ -29,7 +29,7 @@ export async function updateTeamsAfterMatch(winnerId, looserId, tie, hours) {
       0
     );
     const avgELOWinners = totalWinnerELO / winningPlayers.length;
-    // loosers
+    // losers
     const loosingPlayers = await findPlayersByTeamId(looserId);
     const totalLooserELO = loosingPlayers.reduce(
       (sum, player) => sum + player.elo,

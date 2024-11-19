@@ -11,38 +11,37 @@ const createPlayer = asyncHandler(async (req, res) => {
   }
   const id = uuidv4();
 
-  const query = `INSERT INTO players (id, nickname) VALUES ('${id}', '${nickname}')`;
-  try {
-    // Run insert query
-    await runQuery(db, query);
-    // console.log(`Player ${nickname} inserted into players table`);
+  const query = `INSERT INTO players (id, nickname) VALUES (? , ?)`;
+  db.run(query, [id, nickname], function (err) {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
     res.status(200).json({
-      message: `Player ${nickname} with id: ${id} inserted into players table`,
+      id,
+      nickname,
+      wins: 0,
+      loses: 0,
+      elo: 0,
+      hoursPlayed: 0,
+      ratingAdjustment: null,
+      teamId: null,
     });
-  } catch (err) {
-    res.status(500).json({ message: `Error executing query: ${err.message}` });
-  }
+  });
 });
 
 const getPlayerById = asyncHandler(async (req, res) => {
-  const id = req.params.id;
-  let result;
-  const query = `SELECT * FROM players WHERE id = ?`;
-  try {
-    db.get(query, [id], (err, row) => {
-      if (err) {
-        console.error("Error executing query:", err.message);
-      } else {
-        result = row;
-        console.log("Player data:", row);
-        res.status(200).json({
-          message: result,
-        });
-      }
-    });
-  } catch (err) {
-    res.status(500).json({ message: `Error executing query: ${err.message}` });
-  }
+  const { id } = req.params;
+  const selectQuery = `SELECT * FROM players WHERE id = ?`;
+
+  db.get(selectQuery, [id], (err, row) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (!row) {
+      return res.status(400).json({ error: "Player not found" });
+    }
+    res.status(200).json(row);
+  });
 });
 
 export default { createPlayer, getPlayerById };

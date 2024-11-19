@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import { v4 as uuidv4 } from "uuid";
-import { db } from "../../db/db.js";
-
+import { db } from "../db/db.js";
+import { findPlayerById } from "../services/player-service.js";
 const createPlayer = asyncHandler(async (req, res) => {
   const { nickname } = req.body;
 
@@ -42,17 +42,23 @@ const createPlayer = asyncHandler(async (req, res) => {
 });
 const getPlayerById = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const result = await findPlayerById(id);
   // SELECT query
-  const selectQuery = `SELECT * FROM players WHERE id = ?`;
-  db.get(selectQuery, [id], (err, row) => {
+
+  return res.status(200).json(result);
+});
+
+const getPlayers = asyncHandler(async (req, res) => {
+  const selectQuery = `SELECT * FROM players`;
+  db.get(selectQuery, [], (err, rows) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    if (!row) {
-      return res.status(400).json({ error: "Player not found" });
+    if (!rows) {
+      return res.status(404).json({ error: "No players found" });
     }
-    return res.status(200).json(row);
+    return res.status(200).json(rows);
   });
 });
 
-export default { createPlayer, getPlayerById };
+export default { createPlayer, getPlayerById, getPlayers };

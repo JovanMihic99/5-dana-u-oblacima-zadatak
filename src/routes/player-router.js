@@ -4,5 +4,6 @@ const playerRouter = express.Router();
 
 playerRouter.post("/create", playerController.createPlayer);
 playerRouter.get("/:id", playerController.getPlayerById);
+playerRouter.get("/", playerController.getPlayers);
 
 export default playerRouter;

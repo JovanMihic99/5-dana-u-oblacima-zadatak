@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import app from "./app.js";
-import { createTables } from "../db/db.js";
+import { createTables } from "./db/db.js";
 
 dotenv.config();
 const port = process.env.PORT || 3000;

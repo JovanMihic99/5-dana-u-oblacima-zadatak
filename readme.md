@@ -41,3 +41,5 @@ Aplikacija po default-u korisiti port 8080, ovo možete promeniti sa .env fajlom
 - **[sqlite3](https://www.npmjs.com/package/sqlite3)**: Modul za rad sa SQLite bazom podataka, idealan za integraciju laganih i ugrađenih baza podataka u Node.js aplikacijama.
 
 - **[uuid](https://www.npmjs.com/package/uuid)**: Alat za generisanje jedinstvenih identifikatora (UUID-ova).
+
+- **[jest](https://www.npmjs.com/package/jest)**: Framework za testiranje JavaScript aplikacija.

@@ -15,7 +15,6 @@ export async function findTeamById(id) {
     });
     return row;
   } catch (error) {
-    // console.error(error.message);
     throw error;
   }
 }
@@ -43,7 +42,6 @@ export async function isTeamNameTaken(teamName) {
         if (err) {
           return reject(new Error(err.message));
         }
-
         resolve(row);
       });
     });

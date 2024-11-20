@@ -1,7 +1,7 @@
 import {
   calculateRatingAdjustment,
   calculateELO,
-} from "../services/match-service.js"; // Replace with actual module name
+} from "../services/match-service.js";
 
 describe("calculateRatingAdjustment", () => {
   it("should return the correct rating adjustment (k) based on hours played", () => {

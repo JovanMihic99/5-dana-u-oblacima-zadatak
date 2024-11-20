@@ -13,26 +13,9 @@ const createPlayer = asyncHandler(async (req, res) => {
   try {
     result = await createNewPlayer(id, nickname);
   } catch (err) {
-    return res.status(500).json({ error: `Something went WRONG` });
+    return res.status(500).json({ error: `Something went wrong` });
   }
   return res.status(200).json(result);
-  // INSERT query
-  // const query = `INSERT INTO players (id, nickname) VALUES (? , ?)`;
-  // db.run(query, [id, nickname], function (err) {
-  //   if (err) {
-  //     return res.status(500).json({ error: err.message });
-  //   }
-  //   return res.status(200).json({
-  //     id,
-  //     nickname,
-  //     wins: 0,
-  //     loses: 0,
-  //     elo: 0,
-  //     hoursPlayed: 0,
-  //     ratingAdjustment: null,
-  //     teamId: null,
-  //   });
-  // });
 });
 
 const getPlayerById = asyncHandler(async (req, res) => {

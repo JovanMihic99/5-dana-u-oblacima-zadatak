@@ -78,7 +78,6 @@ export async function findPlayersByTeamId(teamId) {
 }
 
 export async function findAllPlayers() {
-  console.log("finding all players..");
   try {
     const selectQuery = `SELECT * FROM players`;
     let result = await new Promise((resolve, reject) => {

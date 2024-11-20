@@ -9,11 +9,10 @@ const port = process.env.PORT || 8080;
 createTables()
   .then(() => {
     console.log("All tables created successfully!");
+    app.listen(port, () => {
+      console.log(`ELO rating API listening on port ${port}`);
+    });
   })
   .catch((err) => {
     console.error("An error occurred:", err.message);
   });
-
-app.listen(port, () => {
-  console.log(`ELO rating API listening on port ${port}`);
-});

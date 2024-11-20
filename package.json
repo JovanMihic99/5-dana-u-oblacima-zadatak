@@ -4,7 +4,7 @@
   "description": "Zadatak za Levi9 5 dana u oblaku hakaton",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
@@ -19,6 +19,7 @@
     "uuid": "^11.0.3"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "nodemon": "^3.1.7"
   }
 }

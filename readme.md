@@ -19,12 +19,16 @@ S obzirom na to da TypeScript nije korišćen za ovaj projekat, nije potrebno ra
 
 ## Pokretanje aplikacije
 
+Paste-ujte ovu komandu u vaš terminal:
+
 ```bash
 git clone https://github.com/JovanMihic99/5-dana-u-oblacima-zadatak
 cd 5-dana-u-oblacima-zadatak
 npm install
 npm start
 ```
+
+Aplikacija po default-u korisiti port 8080, ovo možete promeniti sa .env fajlom koji sadrži polje `PORT`.
 
 ## Lista Korišćenih Tehnologija
 

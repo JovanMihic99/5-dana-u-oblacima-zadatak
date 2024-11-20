@@ -19,7 +19,12 @@ export async function saveMatch(id, team1Id, team2Id, winningTeamId, duration) {
   }
 }
 
-export async function updateTeamsAfterMatch(winnerId, looserId, hours) {
+export async function updateTeamsAfterMatch(
+  matchTied,
+  winnerId,
+  looserId,
+  hours
+) {
   try {
     // winners
     const winningPlayers = await findPlayersByTeamId(winnerId);
@@ -44,10 +49,10 @@ export async function updateTeamsAfterMatch(winnerId, looserId, hours) {
 
       if (i < winningPlayers.length) {
         // first 5 are winners, other 5 are loosers
-        player.wins += 1;
+        if (!matchTied) player.wins += 1;
         player.elo = calculateELO("win", player.elo, avgELOLosers, k);
       } else {
-        player.losses += 1;
+        if (!matchTied) player.losses += 1;
         player.elo = calculateELO("loss", player.elo, avgELOWinners, k);
       }
       await updatePlayer(player.id, player);

@@ -1,5 +1,4 @@
 import asyncHandler from "express-async-handler";
-import { v4 as uuidv4 } from "uuid";
 import { saveMatch, updateTeamsAfterMatch } from "../services/match-service.js";
 
 const recordMatch = asyncHandler(async (req, res) => {

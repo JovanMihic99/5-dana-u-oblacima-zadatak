@@ -20,7 +20,6 @@ export async function saveMatch(team1Id, team2Id, winningTeamId, duration) {
 }
 
 export async function updateTeamsAfterMatch(winnerId, looserId, hours) {
-  // note: this whole function's performance should be improved, also must add logic to skip updating scores in case of tie
   try {
     // winners
     const winningPlayers = await findPlayersByTeamId(winnerId);
@@ -28,7 +27,7 @@ export async function updateTeamsAfterMatch(winnerId, looserId, hours) {
       (sum, player) => sum + player.elo,
       0
     );
-    const avgELOWinners = totalWinnerELO / winningPlayers.length;
+    const avgELOWinners = totalWinnerELO / winningPlayers.length; // average elo of opponent team
     // losers
     const loosingPlayers = await findPlayersByTeamId(looserId);
     const totalLooserELO = loosingPlayers.reduce(
@@ -42,6 +41,7 @@ export async function updateTeamsAfterMatch(winnerId, looserId, hours) {
       const k = calculateRatingAdjustment(player);
       player.ratingAdjustment = k;
       player.hoursPlayed += hours;
+
       if (i < winningPlayers.length) {
         // first 5 are winners, other 5 are loosers
         player.wins += 1;

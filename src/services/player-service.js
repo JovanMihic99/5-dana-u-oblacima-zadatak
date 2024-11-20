@@ -31,7 +31,7 @@ export async function findPlayersByTeamId(teamId) {
   try {
     const selectQuery = `SELECT * FROM players WHERE teamId = ?`;
 
-    let rows = await new Promise((resolve, reject) => {
+    let result = await new Promise((resolve, reject) => {
       db.all(selectQuery, [teamId], (err, rows) => {
         if (err) {
           return reject(new Error(err.message));
@@ -42,7 +42,30 @@ export async function findPlayersByTeamId(teamId) {
         resolve(rows);
       });
     });
-    return rows;
+    return result;
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export async function findAllPlayers() {
+  console.log("finding all players..");
+  try {
+    const selectQuery = `SELECT * FROM players`;
+    let result = await new Promise((resolve, reject) => {
+      db.all(selectQuery, [], (err, rows) => {
+        if (err) {
+          return reject(new Error(err.message));
+        }
+        if (!rows.length) {
+          return reject(new Error(`No players found`));
+        }
+
+        resolve(rows);
+      });
+    });
+    return result;
   } catch (error) {
     console.error(error.message);
     throw error;

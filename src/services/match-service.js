@@ -68,6 +68,7 @@ export function calculateRatingAdjustment(player) {
   switch (true) {
     case hours < 500:
       k = 50;
+      break;
     case hours >= 500 && hours < 1000:
       k = 40;
       break;

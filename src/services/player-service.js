@@ -81,6 +81,36 @@ export async function updatePlayer(id, column, value) {
   }
 }
 
+export async function updateWholePlayer(id, player) {
+  const { nickname, wins, losses, elo, hoursPlayed, teamId, ratingAdjustment } =
+    player;
+  try {
+    const updateQuery = `UPDATE players SET nickname = ?, wins = ?, losses = ?, elo = ?, hoursPlayed = ?, teamId = ?, ratingAdjustment = ? WHERE id = ?`;
+    await new Promise((resolve, reject) => {
+      db.run(
+        updateQuery,
+        [
+          nickname,
+          wins,
+          losses,
+          elo,
+          hoursPlayed,
+          teamId,
+          ratingAdjustment,
+          id,
+        ],
+        (err) => {
+          if (err) return reject(new Error(err.message));
+          resolve();
+        }
+      );
+    });
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
 export async function isNicknameTaken(nickname) {
   try {
     const selectQuery = `SELECT * FROM players WHERE nickname = ?`;

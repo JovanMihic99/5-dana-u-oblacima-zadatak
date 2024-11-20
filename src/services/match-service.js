@@ -1,4 +1,8 @@
-import { findPlayersByTeamId, updatePlayer } from "./player-service.js";
+import {
+  findPlayersByTeamId,
+  updatePlayer,
+  updateWholePlayer,
+} from "./player-service.js";
 import { db } from "../db/db.js";
 export async function saveMatch(team1Id, team2Id, winningTeamId, duration) {
   try {
@@ -37,37 +41,36 @@ export async function updateTeamsAfterMatch(winnerId, looserId, tie, hours) {
     );
     const avgELOLosers = totalLooserELO / loosingPlayers.length;
 
-    for (const player of winningPlayers) {
+    const winnersAndLoosers = [...winningPlayers, ...loosingPlayers]; // combine winner and loosers to loop through them in one loop
+    console.log(winnersAndLoosers.length);
+    for (let i = 0; i < winnersAndLoosers.length; i++) {
+      const player = winnersAndLoosers[i];
       const k = calculateRatingAdjustment(player);
-      await updatePlayer(player.id, "wins", player.wins + 1); // update wins
-      await updatePlayer(player.id, "hoursPlayed", player.hoursPlayed + hours); //update hours played
-      // todo: implement some logic to check if the rating should even be updated, as to not waste resources
-      await updatePlayer(player.id, "ratingAdjustment", k); // update rating adjustment
-      await updatePlayer(
-        player.id,
-        "elo",
-        calculateELO("win", player.elo, avgELOLosers, k)
-      );
+      player.ratingAdjustment = k;
+      player.hoursPlayed += hours;
+      if (i < winningPlayers.length) {
+        // first 5 are winners, other 5 are loosers
+        player.wins += 1;
+        player.elo = calculateELO("win", player.elo, avgELOLosers, k);
+        console.log("winner", player);
+      } else {
+        player.losses += 1;
+        player.elo = calculateELO("loss", player.elo, avgELOWinners, k);
+        console.log("looser", player);
+      }
+      await updateWholePlayer(player.id, player);
     }
 
-    for (const player of loosingPlayers) {
-      const k = calculateRatingAdjustment(player);
-
-      await updatePlayer(player.id, "losses", player.losses + 1);
-      await updatePlayer(player.id, "hoursPlayed", player.hoursPlayed + hours);
-      await updatePlayer(player.id, "ratingAdjustment", k);
-      await updatePlayer(
-        player.id,
-        "elo",
-        calculateELO("loss", player.elo, avgELOWinners, k)
-      );
-    }
-    let updatedWInners = await findPlayersByTeamId(winnerId);
-
-    console.log(
-      "updated winners:",
-      updatedWInners.map((p) => p.elo)
-    );
+    // let updatedWInners = await findPlayersByTeamId(winnerId);
+    // console.log(
+    //   "updated winners:",
+    //   updatedWInners.map((p) => p.elo)
+    // );
+    // let updatedLoosers = await findPlayersByTeamId(looserId);
+    // console.log(
+    //   "updated loosers:",
+    //   updatedLoosers.map((p) => p.elo)
+    // );
   } catch (err) {
     console.error(err);
   }
@@ -77,6 +80,8 @@ export function calculateRatingAdjustment(player) {
   const { hours } = player;
   let k = 50;
   switch (true) {
+    case hours < 500:
+      k = 50;
     case hours >= 500 && hours < 1000:
       k = 40;
       break;
@@ -109,7 +114,7 @@ export function calculateELO(
 
   expectedELO =
     1 / (1 + Math.pow(10, (averageOponentTeamELO - currentELO) / 400));
-  console.log({ currentELO, expectedELO, ratingAdjustment, s, result });
+  // console.log({ currentELO, expectedELO, ratingAdjustment, s, result });
   newELO = currentELO + ratingAdjustment * (s - expectedELO);
   //   console.log({ result, r1, r2, k, s, e, rNew });
   return newELO;

@@ -1,4 +1,32 @@
 import { db } from "../db/db.js";
+
+export async function createNewPlayer(id, nickname) {
+  try {
+    const query = `INSERT INTO players (id, nickname) VALUES (? , ?)`;
+    const result = await new Promise((resolve, reject) => {
+      db.run(query, [id, nickname], function (err) {
+        if (err) {
+          return reject(new Error(err.message));
+        }
+        resolve({
+          id,
+          nickname,
+          wins: 0,
+          loses: 0,
+          elo: 0,
+          hoursPlayed: 0,
+          ratingAdjustment: null,
+          teamId: null,
+        });
+      });
+    });
+    return result;
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
 export async function populatePlayers(players) {
   let res = [];
   for (const pId of players) {

@@ -2,7 +2,7 @@ import sqlite3 from "sqlite3";
 
 const db = new sqlite3.Database(":memory:", (err) => {
   if (err) return console.error("Error connecting to database", err.message);
-  // console.log("Connected to in-memory sqlite3 database");
+  console.log("Connected to in-memory sqlite3 database");
 });
 
 // Utility function to wrap db.run in a Promise

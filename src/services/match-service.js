@@ -19,7 +19,7 @@ export async function saveMatch(team1Id, team2Id, winningTeamId, duration) {
   }
 }
 
-export async function updateTeamsAfterMatch(winnerId, looserId, tie, hours) {
+export async function updateTeamsAfterMatch(winnerId, looserId, hours) {
   // note: this whole function's performance should be improved, also must add logic to skip updating scores in case of tie
   try {
     // winners
@@ -46,11 +46,9 @@ export async function updateTeamsAfterMatch(winnerId, looserId, tie, hours) {
         // first 5 are winners, other 5 are loosers
         player.wins += 1;
         player.elo = calculateELO("win", player.elo, avgELOLosers, k);
-        console.log("winner", player);
       } else {
         player.losses += 1;
         player.elo = calculateELO("loss", player.elo, avgELOWinners, k);
-        console.log("looser", player);
       }
       await updatePlayer(player.id, player);
     }
@@ -97,8 +95,7 @@ export function calculateELO(
 
   expectedELO =
     1 / (1 + Math.pow(10, (averageOponentTeamELO - currentELO) / 400));
-  // console.log({ currentELO, expectedELO, ratingAdjustment, s, result });
   newELO = currentELO + ratingAdjustment * (s - expectedELO);
-  //   console.log({ result, r1, r2, k, s, e, rNew });
+
   return newELO;
 }

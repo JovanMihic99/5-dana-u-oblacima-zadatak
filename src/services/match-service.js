@@ -1,12 +1,12 @@
 import { findPlayersByTeamId, updatePlayer } from "./player-service.js";
 import { db } from "../db/db.js";
-export async function saveMatch(team1Id, team2Id, winningTeamId, duration) {
+export async function saveMatch(id, team1Id, team2Id, winningTeamId, duration) {
   try {
-    const insertQuery = `INSERT INTO matches (team1Id,team2Id,winningTeamId, duration ) VALUES (?,?,?,?)`;
+    const insertQuery = `INSERT INTO matches (id,team1Id,team2Id,winningTeamId, duration ) VALUES (?,?,?,?,?)`;
     await new Promise((resolve, reject) => {
       db.run(
         insertQuery,
-        [team1Id, team2Id, winningTeamId, duration],
+        [id, team1Id, team2Id, winningTeamId, duration],
         (err) => {
           if (err) return reject(new Error(err.message));
           resolve();

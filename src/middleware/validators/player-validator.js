@@ -9,7 +9,7 @@ export const validateNickname = expressAsyncHandler(async (req, res, next) => {
     });
   }
   if (await isNicknameTaken(nickname)) {
-    return res.status(400).json({
+    return res.status(409).json({
       error: "Nickname is already taken. Please choose a different one",
     });
   }

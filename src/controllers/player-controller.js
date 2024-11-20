@@ -29,8 +29,12 @@ const createPlayer = asyncHandler(async (req, res) => {
 
 const getPlayerById = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const result = await findPlayerById(id);
-  // SELECT query
+  let result;
+  try {
+    result = await findPlayerById(id);
+  } catch (err) {
+    return res.status(404).json({ error: `Player ${id} not found` });
+  }
 
   return res.status(200).json(result);
 });

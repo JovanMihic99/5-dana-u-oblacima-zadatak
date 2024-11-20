@@ -1,8 +1,4 @@
-import {
-  findPlayersByTeamId,
-  updatePlayer,
-  updateWholePlayer,
-} from "./player-service.js";
+import { findPlayersByTeamId, updatePlayer } from "./player-service.js";
 import { db } from "../db/db.js";
 export async function saveMatch(team1Id, team2Id, winningTeamId, duration) {
   try {
@@ -40,9 +36,7 @@ export async function updateTeamsAfterMatch(winnerId, looserId, tie, hours) {
       0
     );
     const avgELOLosers = totalLooserELO / loosingPlayers.length;
-
     const winnersAndLoosers = [...winningPlayers, ...loosingPlayers]; // combine winner and loosers to loop through them in one loop
-    console.log(winnersAndLoosers.length);
     for (let i = 0; i < winnersAndLoosers.length; i++) {
       const player = winnersAndLoosers[i];
       const k = calculateRatingAdjustment(player);
@@ -58,19 +52,8 @@ export async function updateTeamsAfterMatch(winnerId, looserId, tie, hours) {
         player.elo = calculateELO("loss", player.elo, avgELOWinners, k);
         console.log("looser", player);
       }
-      await updateWholePlayer(player.id, player);
+      await updatePlayer(player.id, player);
     }
-
-    // let updatedWInners = await findPlayersByTeamId(winnerId);
-    // console.log(
-    //   "updated winners:",
-    //   updatedWInners.map((p) => p.elo)
-    // );
-    // let updatedLoosers = await findPlayersByTeamId(looserId);
-    // console.log(
-    //   "updated loosers:",
-    //   updatedLoosers.map((p) => p.elo)
-    // );
   } catch (err) {
     console.error(err);
   }

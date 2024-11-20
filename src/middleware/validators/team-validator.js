@@ -24,13 +24,13 @@ export const validateTeam = expressAsyncHandler(async (req, res, next) => {
       error: "Team name is already taken. Please choose a different one",
     });
   }
-  // check if all players exist
+  // check if players exist
   for (const player of players) {
     try {
       await findPlayerById(player);
     } catch (error) {
       return res.status(404).json({
-        error: `Player ${player} is not found`,
+        error: `Player ${player} does not exist`,
       });
     }
   }

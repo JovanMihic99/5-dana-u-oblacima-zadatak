@@ -1,6 +1,6 @@
 # 5 Dana U Oblacima Zadatak
 
-REST API za matchmaking platformu video igre koji na osnovu odigranog meča izračuna rejting (ELO) i dodatne statistike za svakog igrača koji je učestvovao u tom meču na osnovu zadatih podataka. Zadatak je izrađen u roku od 48 časova.
+REST API za matchmaking platformu video igre koji na osnovu odigranog meča izračuna rejting (ELO) i dodatne statistike za svakog igrača koji je učestvovao u tom meču na osnovu zadatih podataka.
 
 ## Sadržaj
 

@@ -1,5 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import { isTeamNameTaken } from "../../services/team-service.js";
+import { findPlayerById } from "../../services/player-service.js";
 
 export const validateTeam = expressAsyncHandler(async (req, res, next) => {
   const { players, teamName } = req.body;
@@ -22,6 +23,16 @@ export const validateTeam = expressAsyncHandler(async (req, res, next) => {
     return res.status(400).json({
       error: "Team name is already taken. Please choose a different one",
     });
+  }
+  // check if all players exist
+  for (const player of players) {
+    try {
+      await findPlayerById(player);
+    } catch (error) {
+      return res.status(404).json({
+        error: `Player ${player} is not found`,
+      });
+    }
   }
   next();
 });

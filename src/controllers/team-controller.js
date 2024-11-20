@@ -11,14 +11,20 @@ const createTeam = asyncHandler(async (req, res) => {
   const { players, teamName } = req.body;
   const id = uuidv4();
   let result = {};
-  let populatedPlayers = await populatePlayers(players);
-  updatePlayersTeam(players, id); // update teamId column in players which are assigned to this team
-  saveTeam(id, teamName); //save team to db
-  result = {
-    id,
-    teamName,
-    players: populatedPlayers,
-  };
+  try {
+    let populatedPlayers = await populatePlayers(players);
+    updatePlayersTeam(players, id); // assing the TeamId to each corresponding player
+    saveTeam(id, teamName); //save team to db (I'm not sure if this is actually required, but I'm leaving it in)
+    result = {
+      id,
+      teamName,
+      players: populatedPlayers,
+    };
+  } catch (error) {
+    console.error(error);
+    res.status(400).json;
+  }
+
   res.status(200).json(result);
 });
 

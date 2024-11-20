@@ -11,7 +11,7 @@ REST API za matchmaking platformu video igre koji na osnovu odigranog meča izra
 
 ## Opis okruženja
 
-Aplikacija je izrađena pomoću Node.js-a (v23.1.0). Potrebno je da imate instaliran Node.js (verzija 16 ili novija) na vašem okruženju.
+Potrebno je da imate instaliran Node.js (verzija 16 ili novija) na vašem okruženju.
 
 ## Kako se radi build
 

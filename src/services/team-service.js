@@ -15,7 +15,7 @@ export async function findTeamById(id) {
     });
     return row;
   } catch (error) {
-    console.error(error.message);
+    // console.error(error.message);
     throw error;
   }
 }

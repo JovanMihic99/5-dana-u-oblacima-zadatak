@@ -31,7 +31,16 @@ const createTeam = asyncHandler(async (req, res) => {
 const getTeamById = asyncHandler(async (req, res) => {
   const { id } = req.params;
   let result = {};
-  const team = await findTeamById(id);
+  let team;
+  try {
+    team = await findTeamById(id);
+  } catch (error) {
+    if (!team) {
+      return res.status(404).json({ error: `${error.message}` });
+    }
+    throw new Error(error);
+  }
+
   const players = await findPlayersByTeamId(id);
 
   result = {

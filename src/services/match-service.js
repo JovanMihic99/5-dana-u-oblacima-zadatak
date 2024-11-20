@@ -35,7 +35,7 @@ export async function updateTeamsAfterMatch(winnerId, looserId, hours) {
       0
     );
     const avgELOLosers = totalLooserELO / loosingPlayers.length;
-    const winnersAndLoosers = [...winningPlayers, ...loosingPlayers]; // combine winner and loosers to loop through them in one loop
+    const winnersAndLoosers = [...winningPlayers, ...loosingPlayers]; // combine winner and losers to loop through them in one loop
     for (let i = 0; i < winnersAndLoosers.length; i++) {
       const player = winnersAndLoosers[i];
       const k = calculateRatingAdjustment(player);

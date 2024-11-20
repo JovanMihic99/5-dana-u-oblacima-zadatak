@@ -6,11 +6,16 @@ REST API za matchmaking platformu video igre koji na osnovu odigranog meča izra
 
 - [Opis okruženja](#opis-okruženja)
 - [Pokretanje aplikacije](#pokretanje-aplikacije)
+- [Kako se radi build](#kako-se-radi-build)
 - [Lista Korišćenih tehnologija](#lista-korišćenih-tehnologija)
 
 ## Opis okruženja
 
-Aplikacija je izrađena pomoću Node.js-a (v23.1.0). Potrebno je da imate instaliran Node.js na vašem okruženju.
+Aplikacija je izrađena pomoću Node.js-a (v23.1.0). Potrebno je da imate instaliran Node.js (verzija 16 ili novija) na vašem okruženju.
+
+## Kako se radi build
+
+S obzirom na to da TypeScript nije korišćen za ovaj projekat, nije potrebno raditi build.
 
 ## Pokretanje aplikacije
 

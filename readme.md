@@ -1,25 +1,25 @@
-# 5 Dana U Oblacima Zadatak
+# 5 Days in the Clouds Task
 
-REST API za matchmaking platformu video igre koji na osnovu odigranog meča izračuna rejting (ELO) i dodatne statistike za svakog igrača koji je učestvovao u tom meču na osnovu zadatih podataka.
+A REST API for a video game matchmaking platform that calculates the rating (ELO) and additional statistics for each player participating in a match based on the provided data.
 
-## Sadržaj
+## Contents
 
-- [Opis okruženja](#opis-okruženja)
-- [Pokretanje aplikacije](#pokretanje-aplikacije)
-- [Kako se radi build](#kako-se-radi-build)
-- [Lista Korišćenih tehnologija](#lista-korišćenih-tehnologija)
+- [Environment Description](#environment-description)
+- [Running the Application](#running-the-application)
+- [How to Build](#how-to-build)
+- [List of Used Technologies](#list-of-used-technologies)
 
-## Opis okruženja
+## Environment Description
 
-Potrebno je da imate instaliran Node.js (verzija 16 ili novija) na vašem okruženju.
+You need to have Node.js (version 16 or later) installed on your system.
 
-## Kako se radi build
+## How to Build
 
-S obzirom na to da TypeScript nije korišćen za ovaj projekat, nije potrebno raditi build.
+Since TypeScript is not used for this project, no build process is required.
 
-## Pokretanje aplikacije
+## Running the Application
 
-Paste-ujte ovu komandu u vaš terminal:
+Paste this command into your terminal:
 
 ```bash
 git clone https://github.com/JovanMihic99/5-dana-u-oblacima-zadatak
@@ -28,18 +28,17 @@ npm install
 npm start
 ```
 
-Aplikacija po default-u korisiti port 8080, ovo možete promeniti sa .env fajlom koji sadrži polje `PORT`.
+The application uses port 8080 by default, but you can change this via the `.env` file, which contains the `PORT` field.
 
-## Lista Korišćenih Tehnologija
+## List of Used Technologies
+- **[node.js](https://nodejs.org/)**: A JavaScript-based platform for developing server-side applications.
 
-- **[node.js](https://nodejs.org/)**: Platforma zasnovana na JavaScript-u za razvoj server-side aplikacija.
+- **[express](https://expressjs.com/)**: A web framework for Node.js that enables quick and easy server and API creation.
 
-- **[express](https://expressjs.com/)**: Web framework za Node.js koji omogućava brzo i jednostavno kreiranje servera i API-ja.
+- **[express-async-handler](https://www.npmjs.com/package/express-async-handler)**: Middleware for handling asynchronous functions in Express applications, simplifying error management.
 
-- **[express-async-handler](https://www.npmjs.com/package/express-async-handler)**: Middleware za upravljanje asinhronim funkcijama u Express aplikacijama, čime se olakšava rukovanje greškama.
+- **[sqlite3](https://www.npmjs.com/package/sqlite3)**: A module for working with SQLite databases, ideal for lightweight, embedded database integration in Node.js applications.
 
-- **[sqlite3](https://www.npmjs.com/package/sqlite3)**: Modul za rad sa SQLite bazom podataka, idealan za integraciju laganih i ugrađenih baza podataka u Node.js aplikacijama.
+- **[uuid](https://www.npmjs.com/package/uuid)**: A tool for generating unique identifiers (UUIDs).
 
-- **[uuid](https://www.npmjs.com/package/uuid)**: Alat za generisanje jedinstvenih identifikatora (UUID-ova).
-
-- **[jest](https://www.npmjs.com/package/jest)**: Framework za testiranje JavaScript aplikacija.
+- **[jest](https://www.npmjs.com/package/jest)**: A framework for testing JavaScript applications.
